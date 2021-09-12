@@ -1,3 +1,10 @@
+'''
+In Terminal :
+export FLASK-APP=project
+export debug=True
+flask run --hostname=0.0.0.0 ( for all the machine connected with the same network)
+'''
+
 from flask import Flask
 import flask_sqlalchemy
 from .user import user_blueprint
