@@ -2,14 +2,15 @@
 In Terminal :
 export FLASK-APP=project
 export debug=True
-flask run --hostname=0.0.0.0 ( for all the machine connected with the same network)
+flask run --host=0.0.0.0 ( for all the machine connected with the same network)
 '''
 
 from flask import Flask
 import flask_sqlalchemy
-from .user import user_blueprint
+
 
 db = flask_sqlalchemy.SQLAlchemy()
+
 
 
 def create_app():
@@ -20,6 +21,9 @@ def create_app():
 
     db.init_app(app)
 
+    db.create_all()
+
+    from .user import user_blueprint
     app.register_blueprint(user_blueprint)
 
     return app
