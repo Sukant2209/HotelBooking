@@ -3,10 +3,11 @@ import datetime
 
 class User(db.Model):
     id = db.Column(db.Integer,primary_Key=True)
-    name = db.Column(db.String(40), nullable=False)
+    first_name = db.Column(db.String(40), nullable=False)
+    last_name = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(80), nullable=False)
-    admin = db.Column(db.Boolean, nullable = False)
+    admin = db.Column(db.Boolean, nullable = False , default=False)
     dates = db.relationship("Dates", backref="Person", lazy = True)
     booking = db.relationship("Booking", backref="Person", lazy = True)
 
