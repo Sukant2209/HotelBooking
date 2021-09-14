@@ -1,7 +1,6 @@
 from flask import Blueprint , render_template , request , redirect, url_for
 from flask_bcrypt import generate_password_hash , check_password_hash
 from flask import current_app
-from .models import User, Room, Booking, Dates
 
 user_blueprint = Blueprint("user_blueprint",__name__)
 
