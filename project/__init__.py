@@ -1,8 +1,22 @@
 '''
 In Terminal :
+
+==============================================================================================================
+To run Flask App :-
+
 export FLASK_APP=project
 export debug=True
 flask run --host=0.0.0.0 ( for all the machine connected with the same network)
+
+==============================================================================================================
+
+To Create db :-
+
+from project.__init__ import create_app
+from project.models import User,Room,Dates,Booking
+app= create_app()
+
+===============================================================================================================
 '''
 
 from flask import Flask
@@ -16,6 +30,7 @@ def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "secretkey"
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///HotelCalifornia.db"
+    app.config['SECURITY_PASSWORD_SALT'] = 'fhasdgihwntlgy8f'
 
     #db.init_app(app)
 

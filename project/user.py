@@ -1,3 +1,4 @@
+import bcrypt
 from flask import Blueprint , render_template , request , redirect, url_for , flash
 from flask_bcrypt import generate_password_hash , check_password_hash
 from flask import current_app
@@ -19,10 +20,11 @@ def index():
         
 
         if not check_password_hash(password, password_confirmation):
+            flash("Password do not Match.. Please re-enter")
             current_app.logger.info("Password do not match while Registering")
             return redirect(url_for("user_blueprint.index"))
 
-        registered_user_email = db.session.query(User.email).first_or_404()
+        registered_user_email = User.query.filter_by(email=email).first()
         if registered_user_email:
             print(registered_user_email.email)
             flash("You are already registered , Go To Login page")
@@ -39,6 +41,21 @@ def index():
     return render_template("register.html")
 
 
-@user_blueprint.route("/login")
+@user_blueprint.route("/login", methods=["POST","GET"])
 def login():
+
+    if request.method=="POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        login_user = User.query.filter_by(email=email).first()
+
+        if not login_user:
+            flash("Dont have a account yet ? Register Now")
+            return redirect(url_for("user_blueprint.login"))
+
+        if login_user.email == email and check_password_hash(login_user.password, password):
+            return render_template("profile.html")
+
+
     return render_template("login.html")
