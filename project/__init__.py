@@ -42,6 +42,9 @@ def create_app():
     from .user import user_blueprint
     app.register_blueprint(user_blueprint)
 
+    from .welcome import welcome_blueprint
+    app.register_blueprint(welcome_blueprint)
+
     return app
 
     
