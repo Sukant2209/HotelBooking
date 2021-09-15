@@ -1,5 +1,6 @@
 from .__init__ import db
 from datetime import datetime
+from dataclasses import dataclass
 
 class User(db.Model):
 
@@ -12,7 +13,14 @@ class User(db.Model):
     dates = db.relationship("Dates", backref="Person_date", lazy = True)
     booking = db.relationship("Booking", backref="Person_book", lazy = True)
 
+@dataclass
 class Room(db.Model):
+    id:int
+    room_id:int
+    room_availability:bool
+    room_type:str
+    room_price:int
+    
     id = db.Column(db.Integer,primary_key=True)
     room_id = db.Column(db.Integer,nullable=False)
     room_availability = db.Column(db.Boolean,nullable=False, default=True)
