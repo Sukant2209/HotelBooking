@@ -2,6 +2,38 @@
 
 {% block content %}
 
-<h1> Welcom to bliss </h1>
+<h1> Book Your Room Right Away </h1>
+
+<form action="/confirmRoom" method="POST">
+
+    Select the Room Type You Want in !!
+
+    <a href="{{ url_for('welcome_blueprint.get_this_room', type='Single') }}"> Single </a>
+    <a href="{{ url_for('welcome_blueprint.get_this_room',type='Double') }}"> Double </a>
+    <a href="{{ url_for('welcome_blueprint.get_this_room',type='Delux') }}"> Delux </a>
+
+
+    {% if this_room %}
+        {% for x in this_room %}
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="roomChecked" value = "{{ x.room_id }}" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Room No :{{ x.room_id }}
+                    Is Room Availabile :{{ "Yes" if x.room_availability else "No" }}
+                    Room type :{{ x.room_type }}
+                    Room Price : {{ x.room_price }}
+                </label>
+            </div>
+            
+
+        {% endfor %}
+
+    {% endif %}
+    <input type="submit" value = "Book">
+
+</form>
+
+
 
 {% endblock %}

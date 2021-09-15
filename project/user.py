@@ -4,6 +4,7 @@ from flask_bcrypt import generate_password_hash , check_password_hash
 from flask import current_app
 from .__init__ import db
 from .models import User
+from .welcome import welcome_blueprint
 
 user_blueprint = Blueprint("user_blueprint",__name__)
 

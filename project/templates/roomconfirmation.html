@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1> Please confirm Your selection along with data !</h1>
+<form action="/roomBooked" method="POST">
+
+{% if selected_room_id_details %}
+    
+    
+
+        Room No :{{ selected_room_id_details.room_id }}
+        Room type :{{ selected_room_id_details.room_type }}
+        Room Price : {{ selected_room_id_details.room_price }}
+        <label for="birthday">Select from:</label>
+        <input type="date" id="selectFrom" name="selectFrom">
+        <label for="birthday">Select to:</label>
+        <input type="date" id="selectTo" name="SelectTo">
+        <input type="submit" value="Book">
+        
+
+{% endif %}
+</form>
+
+{% endblock %}

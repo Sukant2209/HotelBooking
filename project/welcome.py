@@ -1,4 +1,4 @@
-from flask import Blueprint , jsonify
+from flask import Blueprint , jsonify , current_app, request
 from flask.templating import render_template
 from .models import Room
 from .__init__ import db
@@ -38,5 +38,32 @@ def room_details():
     #     db.session.commit()
 
     room_fetch_from_db = Room.query.all()
+    print(room_fetch_from_db)
+    current_app.logger.info(room_fetch_from_db)
+    return render_template("profile.html")
 
-    return jsonify(room_fetch_from_db)
+@welcome_blueprint.route("/getRoom")
+def get_this_room():
+
+    get_room_from_profile = request.args.get('type')
+
+    this_room = Room.query.filter_by(room_type=get_room_from_profile).all()
+
+    return render_template("profile.html",this_room=this_room)
+
+@welcome_blueprint.route("/confirmRoom", methods=["POST","GET"])
+def confirm_this_room():
+
+    if request.method=="POST":
+        selected_room_id = request.form.get("roomChecked")
+
+        selected_room_id_details = Room.query.filter_by(room_id=selected_room_id).first()
+
+
+    return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
+
+@welcome_blueprint.route("/roomBooked", methods=["POST","GET"])
+def room_booked():
+
+    
+    return render_template("finalBookedPage.html")
