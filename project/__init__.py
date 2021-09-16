@@ -31,8 +31,8 @@ def create_app():
     app.config["SECRET_KEY"] = "secretkey"
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///HotelCalifornia.db"
     app.config['SECURITY_PASSWORD_SALT'] = 'fhasdgihwntlgy8f'
-
-    #db.init_app(app)
+    app.config["SESSION_COOKIE_PATH"] = "/"
+    app.config["DEBUG"] = True
 
     db.init_app(app)
 

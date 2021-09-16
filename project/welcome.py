@@ -1,7 +1,8 @@
-from flask import Blueprint , jsonify , current_app, request
+from flask import Blueprint , current_app, request, session
 from flask.templating import render_template
-from .models import Room
-from .__init__ import db
+from .models import Room, User,Booking,Dates
+from .__init__ import create_app, db
+from datetime import datetime
 
 welcome_blueprint = Blueprint("welcome_blueprint",__name__)
 
@@ -42,6 +43,7 @@ def room_details():
     current_app.logger.info(room_fetch_from_db)
     return render_template("profile.html")
 
+
 @welcome_blueprint.route("/getRoom")
 def get_this_room():
 
@@ -51,6 +53,7 @@ def get_this_room():
 
     return render_template("profile.html",this_room=this_room)
 
+
 @welcome_blueprint.route("/confirmRoom", methods=["POST","GET"])
 def confirm_this_room():
 
@@ -59,11 +62,38 @@ def confirm_this_room():
 
         selected_room_id_details = Room.query.filter_by(room_id=selected_room_id).first()
 
+        session["selected_room_id_details"] = selected_room_id_details
 
     return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
+
 
 @welcome_blueprint.route("/roomBooked", methods=["POST","GET"])
 def room_booked():
 
+    print(session["selected_room_id_details"])
+    print(session["login_user_email"])
+
+    if "selected_room_id_details"  and "login_user_email" in session:
+
+        selected_room_id_details = session["selected_room_id_details"]
+
+        login_user_email = session["login_user_email"]
+       
+
+    booking_id = "hcsalpsalpwthc"
+
+    select_from_date = datetime.strptime(request.form.get("selectFrom"), '%Y-%m-%d')
+
+    select_to_date = datetime.strptime(request.form.get("selectTo"), '%Y-%m-%d')
+
+    booking = Booking(booking_id = booking_id,user_id=login_user_email,booked_room = selected_room_id_details["room_id"])
+    db.session.add(booking)
+    dates = Dates(date_from=select_from_date,date_to=select_to_date,user_id=login_user_email)
+    db.session.add(dates)
+
+    Room.query.filter_by(room_id=selected_room_id_details["room_id"]).update({"room_availability":False})
+    db.session.commit()
     
+
+
     return render_template("finalBookedPage.html")

@@ -1,5 +1,5 @@
 import bcrypt
-from flask import Blueprint , render_template , request , redirect, url_for , flash
+from flask import Blueprint , render_template , request , redirect, url_for , flash, session
 from flask_bcrypt import generate_password_hash , check_password_hash
 from flask import current_app
 from .__init__ import db
@@ -56,6 +56,7 @@ def login():
             return redirect(url_for("user_blueprint.login"))
 
         if login_user.email == email and check_password_hash(login_user.password, password):
+            session["login_user_email"] = login_user.email
             return render_template("profile.html")
 
 
