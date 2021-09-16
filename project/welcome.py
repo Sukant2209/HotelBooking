@@ -1,5 +1,4 @@
-from flask import Blueprint , current_app, request, session
-from flask.templating import render_template
+from flask import Blueprint , current_app, request, session, redirect, url_for, render_template
 from .models import Room, User,Booking,Dates
 from .__init__ import create_app, db
 from datetime import datetime
@@ -97,3 +96,9 @@ def room_booked():
 
 
     return render_template("finalBookedPage.html")
+
+
+@welcome_blueprint.route("/logout", methods=["POST","GET"])
+def logout():
+    session.clear()
+    return redirect(url_for("user_blueprint.login"))

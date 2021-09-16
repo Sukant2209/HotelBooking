@@ -4,6 +4,10 @@
 
 <p> Your Booking has been confirmed ! You will recieve a mail regarding you details </p>
 
-Return to <a href="#"> main page </a>
+Return to <a href="/allroomDetails"> home page </a>
+
+<div align="right">
+    <a href="{{ url_for('welcome_blueprint.logout') }}"> Logout </a>
+</div>
 
 {% endblock %}

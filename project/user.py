@@ -4,7 +4,6 @@ from flask_bcrypt import generate_password_hash , check_password_hash
 from flask import current_app
 from .__init__ import db
 from .models import User
-from .welcome import welcome_blueprint
 
 user_blueprint = Blueprint("user_blueprint",__name__)
 
@@ -57,7 +56,7 @@ def login():
 
         if login_user.email == email and check_password_hash(login_user.password, password):
             session["login_user_email"] = login_user.email
-            return render_template("profile.html")
+            return redirect(url_for("welcome_blueprint.get_this_room"))
 
 
     return render_template("login.html")
