@@ -21,7 +21,10 @@ app= create_app()
 
 from flask import Flask
 import flask_sqlalchemy
+from flask_mail import Mail
+
 db = flask_sqlalchemy.SQLAlchemy()
+mail=Mail()
 
 
 
@@ -33,8 +36,15 @@ def create_app():
     app.config['SECURITY_PASSWORD_SALT'] = 'fhasdgihwntlgy8f'
     app.config["SESSION_COOKIE_PATH"] = "/"
     app.config["DEBUG"] = True
+    app.config['MAIL_SERVER']='smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'email_id'
+    app.config['MAIL_PASSWORD'] = 'password'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
 
     db.init_app(app)
+    mail.init_app(app)
 
     with app.app_context():
         db.create_all()

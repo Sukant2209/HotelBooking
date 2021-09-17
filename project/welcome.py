@@ -1,7 +1,9 @@
-from flask import Blueprint , current_app, request, session, redirect, url_for, render_template
+from flask import Blueprint , current_app, request, session, redirect, url_for, render_template, flash
 from .models import Room, User,Booking,Dates
-from .__init__ import create_app, db
+from .__init__ import create_app, db , mail
 from datetime import datetime
+import random
+from flask_mail import Message
 
 welcome_blueprint = Blueprint("welcome_blueprint",__name__)
 
@@ -27,6 +29,28 @@ def CREATE_ROOM():
     total_rooms = [room1,room2,room3,room4,room5,room6,room7,room8,room9,room10]
     return total_rooms
 
+def UNIQUE_BOOKING_ID():
+    sequence1=['elgnis','elboud','xuled','detaerc','atad','moor','epyt','tnirp']
+    sequence2=['aidni','acirema','rupiaj']
+    sequence3=[x for x in range(2,100)]
+    sequence4=['a','e','i','o','u']
+
+    booking_id= f'hc{random.choice(sequence1)}{random.choice(sequence2)}{random.choice(sequence3)}{random.choice(sequence4)}'
+
+    return booking_id
+
+
+def SEND_MAIL(login_user_email):
+    msg = Message(subject="Your booking @HotelCalifornia",
+                  body="You are booked",
+                  sender="hotelcalifornia.india@gmail.com",
+                  recipients=[login_user_email]
+                 )
+    mail.connect()
+    mail.send(msg)
+    return "Success"
+
+
 
 @welcome_blueprint.route("/allroomDetails")
 def room_details():
@@ -46,6 +70,10 @@ def room_details():
 @welcome_blueprint.route("/getRoom")
 def get_this_room():
 
+    if not "login_user_email" in session:
+        return redirect(url_for("user_blueprint.login"))
+        
+
     get_room_from_profile = request.args.get('type')
 
     this_room = Room.query.filter_by(room_type=get_room_from_profile).all()
@@ -56,10 +84,13 @@ def get_this_room():
 @welcome_blueprint.route("/confirmRoom", methods=["POST","GET"])
 def confirm_this_room():
 
+    if not "login_user_email" in session:
+        return redirect(url_for("user_blueprint.login"))
+
     if request.method=="POST":
         selected_room_id = request.form.get("roomChecked")
-
         selected_room_id_details = Room.query.filter_by(room_id=selected_room_id).first()
+
 
         session["selected_room_id_details"] = selected_room_id_details
 
@@ -79,11 +110,16 @@ def room_booked():
         login_user_email = session["login_user_email"]
        
 
-    booking_id = "hcsalpsalpwthc"
+    booking_id = UNIQUE_BOOKING_ID()
 
     select_from_date = datetime.strptime(request.form.get("selectFrom"), '%Y-%m-%d')
 
     select_to_date = datetime.strptime(request.form.get("selectTo"), '%Y-%m-%d')
+
+    if select_to_date <= select_from_date:
+        flash("End date is smaler than or equal to start date")
+        return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
+
 
     booking = Booking(booking_id = booking_id,user_id=login_user_email,booked_room = selected_room_id_details["room_id"])
     db.session.add(booking)
@@ -93,7 +129,7 @@ def room_booked():
     Room.query.filter_by(room_id=selected_room_id_details["room_id"]).update({"room_availability":False})
     db.session.commit()
     
-
+    SEND_MAIL(login_user_email)
 
     return render_template("finalBookedPage.html")
 

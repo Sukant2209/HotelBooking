@@ -2,7 +2,16 @@
 
 {% block content %}
 
-<h1> Please confirm Your selection along with data !</h1>
+<h1> Please confirm Your selection along with date !</h1>
+{% with messages = get_flashed_messages() %}
+         {% if messages %}
+                <ul class=flashes>
+                        {% for message in messages %}
+                             <li>{{ message }}</li>
+                         {% endfor %}
+                </ul>
+         {% endif %}
+{% endwith %}
 <form action="/roomBooked" method="POST">
 
 {% if selected_room_id_details %}
