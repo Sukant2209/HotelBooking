@@ -68,7 +68,6 @@ def get_this_room():
 
     if not "login_user_email" in session:
         return redirect(url_for("user_blueprint.login"))
-        
 
     get_room_from_profile = request.args.get('type')
     this_room = Room.query.filter_by(room_type=get_room_from_profile).all()
@@ -86,6 +85,7 @@ def confirm_this_room():
         selected_room_id = request.form.get("roomChecked")
 
         if not selected_room_id:
+            flash("First Select your room")
             return redirect(url_for("welcome_blueprint.get_this_room"))
 
         selected_room_id_details = Room.query.filter_by(room_id=selected_room_id).first()
@@ -104,7 +104,6 @@ def room_booked():
         selected_room_id_details = session["selected_room_id_details"]
         login_user_email = session["login_user_email"]
        
-
     booking_id = UNIQUE_BOOKING_ID()
 
     sfd = request.form.get("selectFrom")
@@ -114,15 +113,12 @@ def room_booked():
         flash("Please Select the Dates")
         return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
 
-
     select_from_date = datetime.strptime(sfd, '%Y-%m-%d')
     select_to_date = datetime.strptime(std, '%Y-%m-%d')
 
-    
     if select_to_date <= select_from_date:
         flash("End date is before or equal to start date ! Please Select Again")
         return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
-
 
     booking = Booking(booking_id = booking_id,user_id=login_user_email,booked_room = selected_room_id_details["room_id"])
     db.session.add(booking)

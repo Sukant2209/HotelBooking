@@ -18,13 +18,13 @@ def index():
         password = generate_password_hash(request.form.get("password"))
         password_confirmation = (request.form.get("passwordConfirmation"))
         
-
         if not check_password_hash(password, password_confirmation):
             flash("Password do not Match.. Please re-enter")
             current_app.logger.info("Password do not match while Registering")
             return redirect(url_for("user_blueprint.index"))
 
         registered_user_email = User.query.filter_by(email=email).first()
+        
         if registered_user_email:
             print(registered_user_email.email)
             flash("You are already registered , Go To Login page")
