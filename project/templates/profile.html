@@ -29,9 +29,9 @@
 
             Select the Room Type You Want in !!
         
-            <a href="{{ url_for('welcome_blueprint.get_this_room', type='Single') }}"> Single </a>
-            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Double') }}"> Double </a>
-            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Delux') }}"> Delux </a>
+            <a href="{{ url_for('welcome_blueprint.get_this_room', type='Single') }}" class="btn btn-info btn-xs" role="button"> Single </a>
+            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Double') }}" class="btn btn-info btn-xs" role="button"> Double </a>
+            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Delux') }}" class="btn btn-info btn-xs" role="button"> Delux </a>
         
             </br>
         
@@ -54,7 +54,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled>
                         <label class="form-check-label" for="flexCheckDisabled">
-                            Room No :{{ x.room_id }}
+                            Room No :{{ x.room_id }} 
                             Is Room Availabile : No
                             Room type :{{ x.room_type }}
                             Room Price : {{ x.room_price }}
@@ -68,7 +68,7 @@
         
             {% endif %}
             </br>
-            <input type="submit" class="btn btn-lg btn-secondary" value = "Book">
+            <input type="submit" class="btn btn-warning" value = "Book">
         </form>
       </p>
       

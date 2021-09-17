@@ -7,7 +7,6 @@ from functools import wraps
 admin_blueprint = Blueprint("admin_blueprint",__name__)
 
 
-
 def checkAdmin(f):
     @wraps(f)
     def wrapper(*args,**kwargs):
@@ -18,7 +17,6 @@ def checkAdmin(f):
             return redirect(url_for("welcome_blueprint.get_this_room"))
         return f(*args,**kwargs)
     return wrapper
-
 
 
 @admin_blueprint.route("/admin", methods=["POST","GET"])

@@ -22,6 +22,7 @@ app= create_app()
 from flask import Flask
 import flask_sqlalchemy
 from flask_mail import Mail
+from .config import Config
 
 db = flask_sqlalchemy.SQLAlchemy()
 mail=Mail()
@@ -31,17 +32,8 @@ mail=Mail()
 def create_app():
 
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "secretkey"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///HotelCalifornia.db"
-    app.config['SECURITY_PASSWORD_SALT'] = 'fhasdgihwntlgy8f'
-    app.config["SESSION_COOKIE_PATH"] = "/"
-    app.config["DEBUG"] = True
-    app.config['MAIL_SERVER']='smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'email'
-    app.config['MAIL_PASSWORD'] = 'password'
-    app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USE_SSL'] = True
+    
+    app.config.from_object(Config)
 
     db.init_app(app)
     mail.init_app(app)
