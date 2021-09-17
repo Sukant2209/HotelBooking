@@ -2,12 +2,17 @@
 
 {% block content %}
 
-<p> Your Booking has been confirmed ! You will recieve a mail regarding you details </p>
-
-Return to <a href="/allroomDetails"> home page </a>
-
-<div align="right">
-    <a href="{{ url_for('welcome_blueprint.logout') }}"> Logout </a>
-</div>
+    <div class="jumbotron text-center">
+        <h1 class="display-3">Thank You!</h1>
+        <p class="lead"><strong>Your Booking has been confirmed !</strong> You will receive a mail shortly</p>
+        <hr>
+        <p>
+        Having trouble? <a href="">Contact us</a>
+        </p>
+        <p class="lead">
+        <a class="btn btn-primary btn-sm" href="{{ url_for('welcome_blueprint.get_this_room') }}" role="button">Continue to homepage</a>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('welcome_blueprint.logout') }}" role="button"> Logout</a>
+        </p>
+    </div>
 
 {% endblock %}

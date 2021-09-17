@@ -38,7 +38,7 @@ def create_app():
     app.config["DEBUG"] = True
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'email_id'
+    app.config['MAIL_USERNAME'] = 'email'
     app.config['MAIL_PASSWORD'] = 'password'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
@@ -54,6 +54,9 @@ def create_app():
 
     from .welcome import welcome_blueprint
     app.register_blueprint(welcome_blueprint)
+
+    from .admin import admin_blueprint
+    app.register_blueprint(admin_blueprint)
 
     return app
 

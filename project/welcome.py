@@ -71,7 +71,6 @@ def get_this_room():
         
 
     get_room_from_profile = request.args.get('type')
-
     this_room = Room.query.filter_by(room_type=get_room_from_profile).all()
 
     return render_template("profile.html",this_room=this_room)
@@ -85,9 +84,11 @@ def confirm_this_room():
 
     if request.method=="POST":
         selected_room_id = request.form.get("roomChecked")
+
+        if not selected_room_id:
+            return redirect(url_for("welcome_blueprint.get_this_room"))
+
         selected_room_id_details = Room.query.filter_by(room_id=selected_room_id).first()
-
-
         session["selected_room_id_details"] = selected_room_id_details
 
     return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
@@ -100,18 +101,24 @@ def room_booked():
     print(session["login_user_email"])
 
     if "selected_room_id_details"  and "login_user_email" in session:
-
         selected_room_id_details = session["selected_room_id_details"]
-
         login_user_email = session["login_user_email"]
        
 
     booking_id = UNIQUE_BOOKING_ID()
 
-    select_from_date = datetime.strptime(request.form.get("selectFrom"), '%Y-%m-%d')
+    sfd = request.form.get("selectFrom")
+    std = request.form.get("selectTo")
 
-    select_to_date = datetime.strptime(request.form.get("selectTo"), '%Y-%m-%d')
+    if not sfd or not std:
+        flash("Please Select the Dates")
+        return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
 
+
+    select_from_date = datetime.strptime(sfd, '%Y-%m-%d')
+    select_to_date = datetime.strptime(std, '%Y-%m-%d')
+
+    
     if select_to_date <= select_from_date:
         flash("End date is before or equal to start date ! Please Select Again")
         return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
@@ -128,7 +135,6 @@ def room_booked():
     SEND_MAIL(login_user_email)
 
     return render_template("finalBookedPage.html")
-
 
 @welcome_blueprint.route("/logout", methods=["POST","GET"])
 def logout():

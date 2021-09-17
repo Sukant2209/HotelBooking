@@ -2,22 +2,13 @@
 
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-         {% if messages %}
-                <ul class=flashes>
-                        {% for message in messages %}
-                             <li>{{ message }}</li>
-                         {% endfor %}
-                </ul>
-         {% endif %}
-{% endwith %}
+
 
 <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <header class="masthead mb-auto">
           <div class="inner">
             <nav class="nav nav-masthead justify-content-center">
-              <a class="nav-link active" href="#">Home</a>
-              <a class="nav-link" href="#">Admin</a>
+              <a class="nav-link active" href="{{ url_for('welcome_blueprint.get_this_room') }}">Home</a>
               <a class="nav-link" href="{{ url_for('welcome_blueprint.logout') }}">Logout</a>
             </nav>
           </div>
@@ -26,6 +17,16 @@
         <main role="main" class="inner cover">
         <h1 class="cover-heading">Please confirm Your selection along with date !</h1>
         <p class="lead"> 
+
+        {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                       <ul class=flashes>
+                               {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                       </ul>
+                {% endif %}
+       {% endwith %}
         <form action="/roomBooked" method="POST">
 
                 {% if selected_room_id_details %}
