@@ -26,9 +26,9 @@ def CREATE_ROOM():
     return total_rooms
 
 def UNIQUE_BOOKING_ID():
-    sequence1=['elgnis','elboud','xuled','detaerc','atad','moor','epyt','tnirp']
-    sequence2=['aidni','acirema','rupiaj']
-    sequence3=[x for x in range(2,100)]
+    sequence1=['elgnis','elboudp','xuledp','detaer','atadyt','moorty','epytlm','tnirpq']
+    sequence2=['aidni','acirem','rupia']
+    sequence3=[x for x in range(11,100)]
     sequence4=['a','e','i','o','u']
 
     booking_id= f'hc{random.choice(sequence1)}{random.choice(sequence2)}{random.choice(sequence3)}{random.choice(sequence4)}'
@@ -131,6 +131,21 @@ def room_booked():
     SEND_MAIL(login_user_email)
 
     return render_template("finalBookedPage.html")
+
+@welcome_blueprint.route("/mybookings", methods=["POST","GET"])
+def myBookings():
+
+    login_user_email = session["login_user_email"]
+
+    current_user_booking = Booking.query.filter_by(user_id=login_user_email).all()
+
+    current_user_booking = current_user_booking[::-1]
+
+    return render_template("mybookings.html",current_user_booking=current_user_booking)
+
+@welcome_blueprint.route("/myprofile", methods=["POST","GET"])
+def myProfile():
+    return render_template("myprofile.html")
 
 @welcome_blueprint.route("/logout", methods=["POST","GET"])
 def logout():

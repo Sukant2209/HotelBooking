@@ -2,6 +2,63 @@
 
 {% block content %}
 
-<h3> Wecome to Admin Page</h3>
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <nav class="nav nav-masthead justify-content-center">
+          <a class="nav-link active" href="{{ url_for('welcome_blueprint.get_this_room') }}">Home</a>
+          <a class="nav-link" href="{{ url_for('admin_blueprint.admin') }}">Admin</a>
+          <a class="nav-link" href="{{ url_for('welcome_blueprint.logout') }}">Logout</a>
+           
+        </nav>
+      </div>
+    </header>
+    <div style="font-weight: bold; text-align: center; width: 250px; height: 50px; font-family: 'Droid Sans', sans-serif; color:rgb(243, 4, 4); font-size:16px; border:0; height:100%; line-height: 30px;">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <main role="main" class="inner cover">
+      <h1 class="cover-heading">Welcome to admin page </h1> </br>
+      <p class="lead"> 
+        <form action="/admin" method="POST">
+
+            Create a new room in Hotel </br>
+            
+            Provide the room no : <input type="text" name="roomId" placeholder="Room No.">
+            
+            <div class="radio">
+                <label><input type="radio" name="optradio" value = "Single">Single</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio" value = "Double">Double</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio"  value = "Delux">Delux</label>
+            </div> 
+
+            <input type="submit" class="btn btn-warning" value = "Create">
+        </form>
+      </p>
+      
+    </main>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+  <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
 
 {% endblock %}

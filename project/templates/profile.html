@@ -7,6 +7,8 @@
       <div class="inner">
         <nav class="nav nav-masthead justify-content-center">
           <a class="nav-link active" href="{{ url_for('welcome_blueprint.get_this_room') }}">Home</a>
+          <a class="nav-link" href="{{ url_for('welcome_blueprint.myBookings') }}">MyBookings</a>
+          <a class="nav-link" href="{{ url_for('welcome_blueprint.myProfile') }}">Profile</a>
           <a class="nav-link" href="{{ url_for('admin_blueprint.admin') }}">Admin</a>
           <a class="nav-link" href="{{ url_for('welcome_blueprint.logout') }}">Logout</a>
            

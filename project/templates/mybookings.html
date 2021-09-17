@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <nav class="nav nav-masthead justify-content-center">
+          <a class="nav-link active" href="{{ url_for('welcome_blueprint.get_this_room') }}">Home</a>
+          <a class="nav-link" href="{{ url_for('welcome_blueprint.logout') }}">Logout</a>
+           
+        </nav>
+      </div>
+    </header>
+    <main role="main" class="inner cover">
+      <h1 class="cover-heading">Your Booking Details </h1> </br>
+      <p class="lead">
+
+            {% if current_user_booking %}
+            <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Booking_ID</th>
+                    <th>Booking_Date</th>
+                    <th>Room No</th>
+                  </tr>
+                </thead>
+
+                 {% for x in current_user_booking %}
+                 
+                 <tbody>
+                    <tr>
+                      <td>{{ x.booking_id }}</td>
+                      <td>{{ x.booking_date }}</td>
+                      <td>{{ x.booked_room }}</td>
+                    </tr>
+                  </tbody>
+                
+                {% endfor %}
+            </table>
+
+            {% endif %}
+
+      </p>
+      
+    </main>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+  <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
+{% endblock %}
