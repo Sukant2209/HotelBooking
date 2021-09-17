@@ -2,41 +2,62 @@
 
 {% block content %}
 
-<h1> Book Your Room Right Away </h1>
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+      <div class="inner">
+        <nav class="nav nav-masthead justify-content-center">
+          <a class="nav-link active" href="#">Home</a>
+          <a class="nav-link" href="#">Admin</a>
+          <a class="nav-link" href="{{ url_for('welcome_blueprint.logout') }}">Logout</a>
+        </nav>
+      </div>
+    </header>
 
-<form action="/confirmRoom" method="POST">
+    <main role="main" class="inner cover">
+      <h1 class="cover-heading">Book Your Room Right Away </h1>
+      <p class="lead"> 
+        <form action="/confirmRoom" method="POST">
 
-    Select the Room Type You Want in !!
+            Select the Room Type You Want in !!
+        
+            <a href="{{ url_for('welcome_blueprint.get_this_room', type='Single') }}"> Single </a>
+            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Double') }}"> Double </a>
+            <a href="{{ url_for('welcome_blueprint.get_this_room',type='Delux') }}"> Delux </a>
+        
+        
+            {% if this_room %}
+                {% for x in this_room %}
+        
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="roomChecked" value = "{{ x.room_id }}" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Room No :{{ x.room_id }}
+                            Is Room Availabile :{{ "Yes" if x.room_availability else "No" }}
+                            Room type :{{ x.room_type }}
+                            Room Price : {{ x.room_price }}
+                        </label>
+                    </div>
+                    
+        
+                {% endfor %}
+        
+            {% endif %}
+            <input type="submit" class="btn btn-lg btn-secondary" value = "Book">
+        </form>
+      </p>
+      
+    </main>
+  </div>
 
-    <a href="{{ url_for('welcome_blueprint.get_this_room', type='Single') }}"> Single </a>
-    <a href="{{ url_for('welcome_blueprint.get_this_room',type='Double') }}"> Double </a>
-    <a href="{{ url_for('welcome_blueprint.get_this_room',type='Delux') }}"> Delux </a>
 
-
-    {% if this_room %}
-        {% for x in this_room %}
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="roomChecked" value = "{{ x.room_id }}" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Room No :{{ x.room_id }}
-                    Is Room Availabile :{{ "Yes" if x.room_availability else "No" }}
-                    Room type :{{ x.room_type }}
-                    Room Price : {{ x.room_price }}
-                </label>
-            </div>
-            
-
-        {% endfor %}
-
-    {% endif %}
-    <input type="submit" value = "Book">
-
-    <div align="center">
-        <a href="{{ url_for('welcome_blueprint.logout') }}"> Logout </a>
-    </div>
-
-</form>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+  <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
 
 
 

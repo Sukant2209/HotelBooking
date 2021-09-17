@@ -1,16 +1,12 @@
 from flask import Blueprint , current_app, request, session, redirect, url_for, render_template, flash
+from flask_mail import Message
 from .models import Room, User,Booking,Dates
-from .__init__ import create_app, db , mail
+from .__init__ import db , mail
 from datetime import datetime
 import random
-from flask_mail import Message
+
 
 welcome_blueprint = Blueprint("welcome_blueprint",__name__)
-
-@welcome_blueprint.route("/profile")
-def welcomePage():
-    return render_template("profile.html")
-
 
 
 def CREATE_ROOM():
@@ -117,7 +113,7 @@ def room_booked():
     select_to_date = datetime.strptime(request.form.get("selectTo"), '%Y-%m-%d')
 
     if select_to_date <= select_from_date:
-        flash("End date is smaler than or equal to start date")
+        flash("End date is before or equal to start date ! Please Select Again")
         return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
 
 
