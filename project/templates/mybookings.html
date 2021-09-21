@@ -19,7 +19,7 @@
 
             {% if current_user_booking %}
             <table class="table table-bordered table-hover">
-                <thead>
+                <thead class="thead-dark">
                   <tr>
                     <th>Booking_ID</th>
                     <th>Booking_Date</th>
@@ -27,17 +27,18 @@
                   </tr>
                 </thead>
 
+                <tbody>
+                 
                  {% for x in current_user_booking %}
                  
-                 <tbody>
-                    <tr>
+                 <tr>
                       <td>{{ x.booking_id }}</td>
                       <td>{{ x.booking_date }}</td>
                       <td>{{ x.booked_room }}</td>
-                    </tr>
-                  </tbody>
+                </tr>
                 
                 {% endfor %}
+                </tbody>
             </table>
 
             {% endif %}

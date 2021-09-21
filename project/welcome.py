@@ -51,16 +51,16 @@ def SEND_MAIL(login_user_email):
 @welcome_blueprint.route("/allroomDetails")
 def room_details():
 
-    # total_rooms = CREATE_ROOM()
-
-    # for x in total_rooms:
-    #     db.session.add(x)
-    #     db.session.commit()
-
     room_fetch_from_db = Room.query.all()
-    print(room_fetch_from_db)
-    current_app.logger.info(room_fetch_from_db)
-    return render_template("profile.html")
+
+    if not room_fetch_from_db:
+        total_rooms = CREATE_ROOM()
+
+        for x in total_rooms:
+            db.session.add(x)
+            db.session.commit()
+
+    return None
 
 
 @welcome_blueprint.route("/getRoom")
@@ -106,15 +106,8 @@ def room_booked():
        
     booking_id = UNIQUE_BOOKING_ID()
 
-    sfd = request.form.get("selectFrom")
-    std = request.form.get("selectTo")
-
-    if not sfd or not std:
-        flash("Please Select the Dates")
-        return render_template("RoomConfirmation.html",selected_room_id_details = selected_room_id_details)
-
-    select_from_date = datetime.strptime(sfd, '%Y-%m-%d')
-    select_to_date = datetime.strptime(std, '%Y-%m-%d')
+    select_from_date = datetime.strptime(request.form.get("selectFrom"), '%Y-%m-%d')
+    select_to_date = datetime.strptime(request.form.get("selectTo"), '%Y-%m-%d')
 
     if select_to_date <= select_from_date:
         flash("End date is before or equal to start date ! Please Select Again")
@@ -136,12 +129,13 @@ def room_booked():
 def myBookings():
 
     login_user_email = session["login_user_email"]
-
     current_user_booking = Booking.query.filter_by(user_id=login_user_email).all()
-
+    current_user_dates = Dates.query.filter_by(user_id=login_user_email).all()
     current_user_booking = current_user_booking[::-1]
+    current_user_dates= current_user_dates[::-1]
 
-    return render_template("mybookings.html",current_user_booking=current_user_booking)
+    return render_template("mybookings.html",current_user_booking=current_user_booking,
+                                    current_user_dates=current_user_dates)
 
 @welcome_blueprint.route("/myprofile", methods=["POST","GET"])
 def myProfile():

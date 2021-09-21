@@ -20,13 +20,9 @@
 
          <div style="font-weight: bold; text-align: center; width: 250px; height: 50px; font-family: 'Droid Sans', sans-serif; color:rgb(243, 4, 4); font-size:16px; border:0; height:100%; line-height: 30px;">
                 {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                                <ul class=flashes>
-                                    {% for message in messages %}
-                                        <li>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                        {% endif %}
+                        {% for message in messages %}
+                                <div id="regstmsg" class="alert alert-danger" role="alert">{{ message }}</div>
+                        {% endfor %}
                 {% endwith %}
          </div>
         <form action="/roomBooked" method="POST">
@@ -37,9 +33,9 @@
                         Room type :{{ selected_room_id_details.room_type }} </br>
                         Room Price : {{ selected_room_id_details.room_price }} </br>
                         <label for="birthday">Select from:</label>
-                        <input type="date" id="selectFrom" name="selectFrom"> </br>
+                        <input type="date" id="selectFrom" min="2021-09-18" name="selectFrom" required> </br>
                         <label for="birthday">Select to:</label>
-                        <input type="date" id="selectTo" name="selectTo"> </br>
+                        <input type="date" id="selectTo" min="2021-09-19" name="selectTo" required> </br>
                         <input type="submit" class="btn btn-lg btn-secondary" value="Book">
                 </div>
 

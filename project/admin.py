@@ -10,12 +10,12 @@ def checkAdmin(f):
     @wraps(f)
     def wrapper(*args,**kwargs):
         login_user_email= session["login_user_email"]
-        if login_user_email == "murari@hulchul.com":
+        if login_user_email.endswith("avengers.com"):
             User.query.filter_by(email=login_user_email).update({"admin":True})
             db.session.commit()
         isAdmin = (User.query.filter_by(email=login_user_email).first()).admin
         if not isAdmin:
-            flash("You are not a admin")
+            flash("Sorry! You are not an avenger, Cant go In")
             return redirect(url_for("welcome_blueprint.get_this_room"))
         return f(*args,**kwargs)
     return wrapper
