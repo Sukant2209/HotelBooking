@@ -9,6 +9,14 @@ export debug=True
 flask run --host=0.0.0.0 ( for all the machine connected with the same network)
 
 ==============================================================================================================
+To Activate virtual Env:-
+
+source venv/bin/activate
+
+To Create virtual Env:-
+
+python3 -m venv /path/to/new/virtual/environment
+==============================================================================================================
 
 To Create db :-
 
